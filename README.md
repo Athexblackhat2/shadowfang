@@ -7,7 +7,7 @@
 ### **Advanced Ransomware-as-a-Service (RaaS) Framework**
 
 [![Version](https://img.shields.io/badge/version-2.0.0-red?style=for-the-badge)](https://github.com/Athexblackhat/shadowfang)
-[![Build](https://img.shields.io/badge/build-2024.12.25-black?style=for-the-badge)](https://github.com/Athexblakhat2/shadowfang)
+[![Build](https://img.shields.io/badge/build-17.10.2026-black?style=for-the-badge)](https://github.com/Athexblakhat2/shadowfang)
 [![Python](https://img.shields.io/badge/python-3.8%2B-blue?style=for-the-badge&logo=python)](https://python.org)
 [![Platform](https://img.shields.io/badge/platform-Windows%207%2F8%2F10%2F11-lightgrey?style=for-the-badge&logo=windows)](https://microsoft.com)
 [![License](https://img.shields.io/badge/license-Educational-orange?style=for-the-badge)](LICENSE)
