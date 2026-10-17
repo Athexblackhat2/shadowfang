@@ -1,0 +1,36 @@
+# SHADOWFANG RANSOMWARE - REQUIREMENTS
+# Python 3.8+ required
+# Windows 7/8/10/11 (x64 & x86)
+
+cryptography>=41.0.0
+pycryptodome>=3.19.0
+pywin32>=306
+pywin32-ctypes>=0.2.2
+wmi>=1.5.1
+psutil>=5.9.0
+py-cpuinfo>=9.0.0
+pycryptodomex>=3.19.0
+pypiwin32>=223
+pynput>=1.7.6
+keyboard>=0.13.5
+Pillow>=10.0.0
+opencv-python>=4.8.0.76
+numpy>=1.24.0
+pyaudio>=0.2.13
+sounddevice>=0.4.6
+soundfile>=0.12.1
+pyperclip>=1.8.2
+pywin32>=306
+requests>=2.31.0
+urllib3>=2.0.0
+paramiko>=3.3.0
+pysocks>=1.7.1
+stem>=1.8.2
+requests[socks]>=2.31.0
+yagmail>=0.15.0
+pyinstaller>=6.0.0
+auto-py-to-exe>=2.40.0
+colorama>=0.4.6
+tqdm>=4.66.0
+pyyaml>=6.0
+sqlite3
