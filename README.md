@@ -159,23 +159,15 @@ pip install -r requirements.txt
 
 ```
 
-### Windows Automated Install
-
-```batch
-install.bat
-```
-
 ### Manual Install
 
-```bash
+```
 # Upgrade pip
 python -m pip install --upgrade pip
 
 # Install core dependencies
 pip install cryptography pywin32 pyinstaller
 
-# Install optional dependencies
-pip install -r requirements-full.txt
 ```
 
 ---
@@ -184,7 +176,7 @@ pip install -r requirements-full.txt
 
 ### Basic Usage
 
-```bash
+```
 python builder.py
 ```
 
@@ -206,7 +198,7 @@ python builder.py
 ### Example Run
 
 ```
-$ python builder.py
+$ python3 builder.py
 
 
       SHADOWFANG RANSOMWARE BUILDER       
@@ -493,22 +485,6 @@ To recover your files, you must pay 5 BTC in Bitcoin.
 
 ---
 
-## 📖 DOCUMENTATION
-
-### Available Documentation
-
-| Document | Description |
-|----------|-------------|
-| [SETUP.md](setup.md) | Installation guide |
-| [USAGE.md](docs/USAGE.md) | Detailed usage |
-| [API.md](docs/API.md) | Module API reference |
-| [EVASION.md](docs/EVASION.md) | Evasion techniques |
-| [PERSISTENCE.md](docs/PERSISTENCE.md) | Persistence mechanisms |
-| [ENCRYPTION.md](docs/ENCRYPTION.md) | Encryption details |
-| [FAQ.md](docs/FAQ.md) | Frequently asked questions |
-
----
-
 ## ❓ FAQ
 
 ### General
@@ -570,8 +546,6 @@ SOFTWARE.
 
 ## ⚠️ DISCLAIMER
 
-<div align="center">
-
 ### 🚨 IMPORTANT LEGAL NOTICE 🚨
 
 **THIS SOFTWARE IS PROVIDED FOR EDUCATIONAL AND RESEARCH PURPOSES ONLY.**
@@ -597,7 +571,6 @@ SOFTWARE.
 
 **Unauthorized access to computer systems is a federal crime.**
 
-</div>
 
 ---
 
@@ -636,7 +609,7 @@ SOFTWARE.
 **"In the shadows, we hunt."**
 
 [![Made with Python](https://img.shields.io/badge/Made%20with-Python-blue?style=for-the-badge&logo=python)](https://python.org)
-[![Made with ❤️](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red?style=for-the-badge)](https://github.com/Athexblackhat2/shadowfang)
+[![Made with ❤️ BY ATHEX](https://img.shields.io/badge/Made%20with-%E2%9D%A4-red?style=for-the-badge)](https://github.com/Athexblackhat2/shadowfang)
 
 ---
 
